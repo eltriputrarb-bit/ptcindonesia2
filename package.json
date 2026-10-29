@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "node api/src/server.js",
-    "server:dev": "node --watch api/src/server.js"
+    "server": "node server/server.js",
+    "server:dev": "node --watch server/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
