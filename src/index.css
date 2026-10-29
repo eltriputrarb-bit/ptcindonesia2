@@ -275,6 +275,168 @@ body {
 }
 
 @media (max-width: 768px) {
+  /* Tampilan Lebih Ringkas & Ramping untuk Android & iPhone */
+  .navbar {
+    padding: 0.55rem 0.85rem;
+  }
+
+  .logo-text {
+    font-size: 1.25rem;
+  }
+
+  .auth-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  .profile-trigger-btn {
+    padding: 0.25rem 0.6rem;
+    gap: 0.4rem;
+    border-radius: 6px;
+  }
+
+  .profile-greeting-text {
+    font-size: 0.8rem;
+  }
+
+  .profile-avatar-circle {
+    width: 26px;
+    height: 26px;
+  }
+
+  .avatar-svg-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .profile-dropdown-menu {
+    width: 165px;
+    top: calc(100% + 5px);
+  }
+
+  .dropdown-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  /* Hero Slider Compact di HP */
+  .hero-slider {
+    margin: 0.75rem auto 1rem;
+    padding: 0 0.75rem;
+  }
+
+  .slide-content {
+    height: 190px;
+    border-radius: 8px;
+  }
+
+  .nav-arrow {
+    width: 28px;
+    height: 28px;
+  }
+
+  .left-arrow {
+    left: 14px;
+  }
+
+  .right-arrow {
+    right: 14px;
+  }
+
+  .nav-arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Katalog Kursus Compact di HP */
+  .catalog-section {
+    margin: 1.5rem auto 2rem;
+    padding: 0 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card-image-box {
+    height: 145px;
+  }
+
+  .card-info {
+    padding: 0.75rem 0.85rem;
+    gap: 0.25rem;
+  }
+
+  .field-name {
+    font-size: 1.05rem;
+  }
+
+  .field-category {
+    font-size: 0.82rem;
+  }
+
+  .field-rating {
+    font-size: 0.82rem;
+  }
+
+  .field-price {
+    font-size: 0.95rem;
+  }
+
+  /* Testimoni / Reviews Compact di HP */
+  .reviews-section {
+    margin: 1.75rem auto 2rem;
+    padding: 0 0.85rem;
+  }
+
+  .reviews-title {
+    font-size: 1.15rem;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .review-card {
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+  }
+
+  .avatar-wrapper {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.5rem;
+  }
+
+  .reviewer-name {
+    font-size: 0.88rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .stars-row-svg {
+    margin-bottom: 0.5rem;
+  }
+
+  .reviewer-text {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin-bottom: 0.75rem;
+  }
+
+  .google-badge {
+    font-size: 0.75rem;
+  }
+
   .order-form-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -1598,31 +1760,124 @@ body {
   .dashboard-container {
     display: block;
     position: relative;
-    min-height: calc(100vh - 65px);
+    min-height: calc(100vh - 50px);
   }
 
-  /* Bersihkan sidebar menu di Android / iPhone menjadi modern Navigation Drawer */
+  /* Navigation Drawer Ramping & Ringkas untuk Android & iPhone */
   .dashboard-sidebar {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 285px;
-    max-width: 84vw;
+    width: 235px;
+    max-width: 72vw;
     height: 100vh;
     height: 100dvh;
     z-index: 1050;
-    background-color: #1e2227;
+    background-color: #1a1e23;
     transform: translateX(-100%);
     box-shadow: none;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    border-right: 1px solid #333a44;
+    border-right: 1px solid #2e353f;
   }
 
   .dashboard-sidebar.drawer-open {
     transform: translateX(0);
-    box-shadow: 6px 0 30px rgba(0, 0, 0, 0.55);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .sidebar-brand {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #282f38;
+  }
+
+  .brand-title-wrap h2 {
+    font-size: 0.95rem;
+  }
+
+  .sidebar-brand-sub {
+    font-size: 0.65rem;
+  }
+
+  .drawer-close-btn {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: #272d35;
+    border: 1px solid #363e4a;
+    color: #cbd5e1;
+  }
+
+  .drawer-close-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .sidebar-user-card {
+    margin: 0.5rem 0.65rem 0.35rem 0.65rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 7px;
+    gap: 0.55rem;
+    background: #232830;
+    border: 1px solid #313844;
+  }
+
+  .sidebar-user-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .sidebar-user-avatar svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .sidebar-user-name {
+    font-size: 0.78rem;
+  }
+
+  .sidebar-user-role-badge {
+    font-size: 0.62rem;
+  }
+
+  .sidebar-menu-wrapper {
+    padding: 0.35rem 0;
+  }
+
+  .sidebar-category-label {
+    padding: 0 0.85rem;
+    font-size: 0.65rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .sidebar-menu li a {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+    gap: 0.55rem;
+  }
+
+  .side-svg-icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .sidebar-drawer-footer {
+    padding: 0.65rem;
+    border-top: 1px solid #282f38;
+  }
+
+  .drawer-logout-btn {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.78rem;
+    border-radius: 6px;
+    gap: 0.4rem;
+  }
+
+  .drawer-logout-btn svg {
+    width: 15px;
+    height: 15px;
   }
 
   /* Backdrop Overlay untuk Mobile (Android & iPhone) */
@@ -1644,37 +1899,165 @@ body {
     visibility: visible;
   }
 
-  /* Hamburger Menu Button di Topbar */
+  /* Topbar Lebih Ramping di HP */
+  .dashboard-topbar {
+    padding: 0 0.75rem;
+    height: 46px;
+    min-height: 46px;
+  }
+
   .drawer-toggle-btn {
     display: inline-flex;
+    padding: 0.28rem 0.55rem;
+    font-size: 0.78rem;
+    border-radius: 6px;
+    gap: 0.35rem;
   }
 
-  /* Tombol X untuk close drawer di header drawer */
-  .drawer-close-btn {
-    display: inline-flex;
-    width: 32px;
-    height: 32px;
-    background: #2b323c;
-    border: 1px solid #3c4553;
-    color: #e2e8f0;
+  .drawer-toggle-btn svg {
+    width: 17px;
+    height: 17px;
   }
 
-  .dashboard-topbar {
-    padding: 0 1rem;
-    height: 52px;
+  .topbar-page-title {
+    font-size: 0.82rem;
   }
 
+  .topbar-right {
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .topbar-username {
+    font-size: 0.78rem;
+  }
+
+  .topbar-avatar-badge {
+    width: 26px;
+    height: 26px;
+  }
+
+  .topbar-avatar-svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .topbar-logout-btn {
+    padding: 3px;
+  }
+
+  .topbar-logout-svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* Profile Card Lebih Compact di HP */
   .dashboard-content {
-    padding: 1.25rem 0.85rem;
+    padding: 0.85rem 0.65rem;
   }
 
   .profile-grid {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 0.85rem;
   }
 
   .profile-card {
-    padding: 1.25rem 1rem;
+    padding: 0.85rem 0.75rem;
+    border-radius: 8px;
+  }
+
+  .card-top-actions {
+    margin-bottom: 0.75rem;
+  }
+
+  .btn-dash-back,
+  .btn-dash-edit {
+    padding: 0.28rem 0.6rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+  }
+
+  .profile-avatar-box {
+    margin-bottom: 0.75rem;
+  }
+
+  .avatar-circle {
+    width: 62px;
+    height: 62px;
+  }
+
+  .avatar-svg-hero {
+    width: 42px;
+    height: 42px;
+  }
+
+  .profile-display-name {
+    font-size: 0.95rem;
+    margin-top: 0.4rem;
+  }
+
+  .saldo-badge-box {
+    padding: 0.45rem 0.6rem;
+    margin-bottom: 0.65rem;
+    border-radius: 6px;
+  }
+
+  .saldo-label {
+    font-size: 0.72rem;
+  }
+
+  .saldo-value {
+    font-size: 0.92rem;
+  }
+
+  .info-item {
+    padding: 0.35rem 0;
+    font-size: 0.82rem;
+  }
+
+  .info-label {
+    font-size: 0.72rem;
+  }
+
+  .info-value {
+    font-size: 0.82rem;
+  }
+
+  .user-tabs-header {
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tab-btn {
+    padding: 0.38rem 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  /* Kelas Page Compact */
+  .kelas-content-container {
+    padding: 0.85rem 0.65rem;
+  }
+
+  .kelas-title {
+    font-size: 1.25rem;
+  }
+
+  .btn-kelas-kembali {
+    padding: 0.32rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .kelas-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .kelas-card {
+    padding: 0.85rem;
+  }
+
+  .kelas-img-box {
+    height: 135px;
   }
 }
 
