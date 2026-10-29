@@ -38,9 +38,7 @@ const allowedOrigins = [
 app.use(
     cors({
         origin: (origin, callback) => {
-            // Izinkan request tanpa origin (seperti mobile app, curl, postman, serverless same-origin)
             if (!origin) return callback(null, true);
-            // Izinkan semua domain Vercel preview (*.vercel.app) atau origin yang didaftarkan
             if (origin.endsWith('.vercel.app') || allowedOrigins.includes(origin) || process.env.CLIENT_URL === '*') {
                 return callback(null, true);
             }
@@ -54,16 +52,6 @@ app.use(
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// Health Check Endpoint (Berguna untuk memverifikasi deployment Vercel)
-app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'ok',
-        service: 'PTC API',
-        environment: process.env.NODE_ENV || 'production',
-        timestamp: new Date().toISOString(),
-    });
-});
 
 // Middleware Cek & Sambungkan MongoDB Atlas (Khusus Serverless Vercel)
 app.use(async (req, res, next) => {
@@ -81,36 +69,48 @@ app.use(async (req, res, next) => {
     }
 });
 
-// Auth Endpoints dengan Proteksi Brute-Force Rate Limiting (Maks 10 percobaan per menit)
-app.post('/api/auth/register', authRateLimiter(10, 60000), register);
-app.post('/api/auth/login', authRateLimiter(10, 60000), login);
-app.post('/api/auth/logout', logout);
+// Router API
+const apiRouter = express.Router();
 
-// Katalog Kursus Endpoints
-app.get('/api/courses', getCourses);
-app.post('/api/courses', verifyToken, verifyAdmin, createCourse);
-app.put('/api/courses/:id', verifyToken, verifyAdmin, updateCourse);
-app.delete('/api/courses/:id', verifyToken, verifyAdmin, deleteCourse);
-
-// Manajemen User oleh Admin Endpoints
-app.get('/api/admin/users', verifyToken, verifyAdmin, getAllUsers);
-app.put('/api/admin/users/:id', verifyToken, verifyAdmin, updateUserByAdmin);
-app.delete('/api/admin/users/:id', verifyToken, verifyAdmin, deleteUserByAdmin);
-
-// User Personal Endpoints
-app.get('/api/user/profile', verifyToken, getProfile);
-app.put('/api/user/profile', verifyToken, updateProfile);
-app.post('/api/user/enroll', verifyToken, enrollCourse);
-app.post('/api/user/cancel-course', verifyToken, cancelCourse);
-app.post('/api/user/absen', verifyToken, doAbsen);
-app.put('/api/user/course-photo', verifyToken, uploadCoursePhoto);
-
-// 404 Handler untuk API Route
-app.use('/api/*', (req, res) => {
-    res.status(404).json({ message: `API route ${req.originalUrl} tidak ditemukan.` });
+// Health Check Endpoint
+apiRouter.get('/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        service: 'PTC API',
+        environment: process.env.NODE_ENV || 'production',
+        timestamp: new Date().toISOString(),
+    });
 });
 
-// Global Error Handler (Menyembunyikan detail stack trace pada Production)
+// Auth Endpoints dengan Proteksi Brute-Force Rate Limiting (Maks 10 percobaan per menit)
+apiRouter.post('/auth/register', authRateLimiter(10, 60000), register);
+apiRouter.post('/auth/login', authRateLimiter(10, 60000), login);
+apiRouter.post('/auth/logout', logout);
+
+// Katalog Kursus Endpoints
+apiRouter.get('/courses', getCourses);
+apiRouter.post('/courses', verifyToken, verifyAdmin, createCourse);
+apiRouter.put('/courses/:id', verifyToken, verifyAdmin, updateCourse);
+apiRouter.delete('/courses/:id', verifyToken, verifyAdmin, deleteCourse);
+
+// Manajemen User oleh Admin Endpoints
+apiRouter.get('/admin/users', verifyToken, verifyAdmin, getAllUsers);
+apiRouter.put('/admin/users/:id', verifyToken, verifyAdmin, updateUserByAdmin);
+apiRouter.delete('/admin/users/:id', verifyToken, verifyAdmin, deleteUserByAdmin);
+
+// User Personal Endpoints
+apiRouter.get('/user/profile', verifyToken, getProfile);
+apiRouter.put('/user/profile', verifyToken, updateProfile);
+apiRouter.post('/user/enroll', verifyToken, enrollCourse);
+apiRouter.post('/user/cancel-course', verifyToken, cancelCourse);
+apiRouter.post('/user/absen', verifyToken, doAbsen);
+apiRouter.put('/user/course-photo', verifyToken, uploadCoursePhoto);
+
+// Mount router pada '/api' dan '/' agar kompatibel dengan Vercel Serverless Function
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
+
+// Global Error Handler
 app.use((err, req, res, next) => {
     console.error('Server Error:', err);
     res.status(500).json({
