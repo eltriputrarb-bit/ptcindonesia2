@@ -53,6 +53,18 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Health Check Endpoint (Tidak butuh koneksi database, untuk diagnosa status server Vercel)
+app.get(['/api/health', '/health'], (req, res) => {
+    res.json({
+        status: 'online',
+        service: 'PTC API Serverless Function',
+        environment: process.env.NODE_ENV || 'production',
+        hasMongoUri: Boolean(process.env.MONGODB_URI),
+        hasJwtSecret: Boolean(process.env.JWT_SECRET),
+        timestamp: new Date().toISOString(),
+    });
+});
+
 // Middleware Cek & Sambungkan MongoDB Atlas (Khusus Serverless Vercel)
 app.use(async (req, res, next) => {
     if (req.method === 'OPTIONS') return next();
@@ -61,26 +73,19 @@ app.use(async (req, res, next) => {
         await connectDB();
         next();
     } catch (err) {
+        console.error('Koneksi MongoDB Atlas gagal:', err.message);
         return res.status(503).json({
             message: 'Koneksi ke database MongoDB Atlas gagal.',
             detail: err.message,
-            hint: 'Pastikan MONGODB_URI sudah ditambahkan pada Environment Variables di Dashboard Vercel.',
+            hint: !process.env.MONGODB_URI
+                ? 'Variabel MONGODB_URI belum disetel di Vercel Dashboard -> Project Settings -> Environment Variables. Jangan lupa klik Redeploy setelah menambahkan variabel.'
+                : 'Variabel MONGODB_URI sudah terpasang, namun MongoDB Atlas menolak koneksi. Buka MongoDB Atlas -> Network Access -> tambahkan 0.0.0.0/0 (Allow Access from Anywhere).',
         });
     }
 });
 
 // Router API
 const apiRouter = express.Router();
-
-// Health Check Endpoint
-apiRouter.get('/health', (req, res) => {
-    res.json({
-        status: 'ok',
-        service: 'PTC API',
-        environment: process.env.NODE_ENV || 'production',
-        timestamp: new Date().toISOString(),
-    });
-});
 
 // Auth Endpoints dengan Proteksi Brute-Force Rate Limiting (Maks 10 percobaan per menit)
 apiRouter.post('/auth/register', authRateLimiter(10, 60000), register);

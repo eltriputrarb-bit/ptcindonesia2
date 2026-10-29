@@ -1,52 +1,52 @@
 import mongoose from 'mongoose';
 import Course from '../models/Course.js';
 
-// Ambil semua kursus (Public) dengan proteksi anti-duplikasi
+const initialCourses = [
+    {
+        title: 'Front End Web Development',
+        category: 'Kursus komputer',
+        rating: '5.00',
+        price: '2.000.000',
+        priceNumeric: 2000000,
+        image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
+        quotaSesi: 12,
+    },
+    {
+        title: 'School Program',
+        category: 'Kursus komputer',
+        rating: '5.00',
+        price: '1.500.000',
+        priceNumeric: 1500000,
+        image: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?auto=format&fit=crop&w=600&q=80',
+        quotaSesi: 12,
+    },
+    {
+        title: 'Microsoft Excel Master',
+        category: 'Kursus komputer',
+        rating: '5.00',
+        price: '1.000.000',
+        priceNumeric: 1000000,
+        image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80',
+        quotaSesi: 12,
+    },
+];
+
+// Ambil semua kursus (Public) - Cepat dan otomatis inisialisasi jika database masih kosong
 export const getCourses = async (req, res) => {
     try {
-        const initialCourses = [
-            {
-                title: 'Front End Web Development',
-                category: 'Kursus komputer',
-                rating: '5.00',
-                price: '2.000.000',
-                priceNumeric: 2000000,
-                image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
-                quotaSesi: 12,
-            },
-            {
-                title: 'School Program',
-                category: 'Kursus komputer',
-                rating: '5.00',
-                price: '1.500.000',
-                priceNumeric: 1500000,
-                image: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?auto=format&fit=crop&w=600&q=80',
-                quotaSesi: 12,
-            },
-            {
-                title: 'Microsoft Excel Master',
-                category: 'Kursus komputer',
-                rating: '5.00',
-                price: '1.000.000',
-                priceNumeric: 1000000,
-                image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80',
-                quotaSesi: 12,
-            },
-        ];
+        let courses = await Course.find().sort({ createdAt: 1 });
 
-        // Cek judul agar tidak terduplikasi ke database
-        for (const c of initialCourses) {
-            const exists = await Course.findOne({ title: c.title });
-            if (!exists) {
-                await Course.create(c);
-            }
+        // Jika database kursus masih kosong, inisialisasi otomatis
+        if (courses.length === 0) {
+            await Course.insertMany(initialCourses);
+            courses = await Course.find().sort({ createdAt: 1 });
         }
 
-        const courses = await Course.find().sort({ createdAt: 1 });
         res.json({ courses });
     } catch (error) {
+        console.error('getCourses Error:', error);
         res.status(500).json({
-            message: 'Gagal mengambil data katalog',
+            message: 'Gagal mengambil data katalog kursus',
             error: process.env.NODE_ENV === 'development' ? error.message : undefined,
         });
     }
